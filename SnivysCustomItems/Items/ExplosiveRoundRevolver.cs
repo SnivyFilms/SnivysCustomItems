@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features.Attributes;
@@ -34,7 +34,6 @@ namespace SnivysCustomItems.Items
 
         public override float Damage { get; set; } = 0;
         public override byte ClipSize { get; set; } = 2;
-        public bool UseGrenades { get; set; } = true;
         public float FuseTime { get; set; } = 2.5f;
         public float ScpGrenadeDamageMultiplier { get; set; } = .5f;
 
@@ -46,27 +45,6 @@ namespace SnivysCustomItems.Items
         protected override void UnsubscribeEvents()
         {
             Player.Shot -= OnShot;
-        }
-        
-
-        protected override void OnReloading(ReloadingWeaponEventArgs ev)
-        {
-            if (UseGrenades)
-            {
-                ev.IsAllowed = false;
-                if (!(ev.Player.CurrentItem is Firearm firearm) || firearm.Ammo >= ClipSize)
-                    return;
-                foreach (Item item in ev.Player.Items.ToList())
-                {
-                    if (item.Type != ItemType.GrenadeHE)
-                        continue;
-                    ev.Player.DisableEffect(EffectType.Invisible);
-                    ev.Player.Connection.Send(new RequestMessage(ev.Firearm.Serial, RequestType.Reload));
-                    Timing.CallDelayed(3f, () => firearm.Ammo = ClipSize);
-                    ev.Player.RemoveItem(item);
-                    return;
-                }
-            }
         }
 
         protected override void OnShooting(ShootingEventArgs ev)
