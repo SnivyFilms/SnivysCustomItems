@@ -24,6 +24,7 @@ namespace SnivysCustomItems.Items
         public float NerveAgentDuration { get; set; } = 25f;
         public float NerveAgentRadius { get; set; } = 5f;
         public float NerveAgentPoisonDuration { get; set; } = 30f;
+        public float NerveAgentImmediateDamage { get; set; } = 1f;
         private Vector3 grenadePosition;
         private Pickup pickup;
         private CoroutineHandle nerveAgentHandle;
@@ -74,7 +75,7 @@ namespace SnivysCustomItems.Items
                     if(Vector3.Distance(player.Position, grenadePosition) <= NerveAgentRadius)
                     {
                         player.EnableEffect(EffectType.Poisoned, NerveAgentPoisonDuration);
-                        player.Hurt(1, DamageType.Poison);
+                        player.Hurt(NerveAgentImmediateDamage, DamageType.Poison);
                     }
                 }
                 yield return Timing.WaitForSeconds(0.5f);
