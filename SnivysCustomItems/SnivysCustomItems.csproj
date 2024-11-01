@@ -77,9 +77,10 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Config.cs" />
-        <Compile Include="Items\ExplosiveRoundRevolver.cs" />
-        <Compile Include="Items\NerveAgentGrenade.cs" />
-        <Compile Include="Items\SmokeGrenade.cs" />
+        <Compile Include="Items\Firearms\ExplosiveRoundRevolver.cs" />
+        <Compile Include="Items\Grenades\NerveAgentGrenade.cs" />
+        <Compile Include="Items\Grenades\SmokeGrenade.cs" />
+        <Compile Include="Items\Injections\DeadringerSyringe.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>

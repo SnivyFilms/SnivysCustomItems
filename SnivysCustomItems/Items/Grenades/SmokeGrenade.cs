@@ -8,7 +8,7 @@ using Exiled.Events.EventArgs.Map;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace SnivysCustomItems.Items
+namespace SnivysCustomItems.Items.Grenades
 {
     [CustomItem(ItemType.GrenadeFlash)]
     public class SmokeGrenade : CustomGrenade

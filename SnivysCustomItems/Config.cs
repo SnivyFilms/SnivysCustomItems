@@ -2,6 +2,9 @@
 using System.ComponentModel;
 using Exiled.API.Interfaces;
 using SnivysCustomItems.Items;
+using SnivysCustomItems.Items.Firearms;
+using SnivysCustomItems.Items.Grenades;
+using SnivysCustomItems.Items.Injections;
 
 namespace SnivysCustomItems
 {
@@ -26,6 +29,11 @@ namespace SnivysCustomItems
         public List<NerveAgentGrenade> NerveAgentGrenades { get; set; } = new()
         {
             new NerveAgentGrenade()
+        };
+
+        public List<DeadringerSyringe> DeadringerSyringes { get; private set; } = new()
+        {
+            new DeadringerSyringe()
         };
     }
 }
