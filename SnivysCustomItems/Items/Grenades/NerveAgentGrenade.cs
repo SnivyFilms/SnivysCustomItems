@@ -10,7 +10,7 @@ using MEC;
 using UnityEngine;
 using PlayerAPI = Exiled.API.Features.Player;
 
-namespace SnivysCustomItems.Items
+namespace SnivysCustomItems.Items.Grenades
 {
     [CustomItem(ItemType.GrenadeFlash)]
     public class NerveAgentGrenade : CustomGrenade
