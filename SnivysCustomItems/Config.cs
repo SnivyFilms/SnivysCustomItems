@@ -5,6 +5,7 @@ using SnivysCustomItems.Items;
 using SnivysCustomItems.Items.Firearms;
 using SnivysCustomItems.Items.Grenades;
 using SnivysCustomItems.Items.Injections;
+using SnivysCustomItems.Items.Other;
 
 namespace SnivysCustomItems
 {
@@ -34,6 +35,11 @@ namespace SnivysCustomItems
         public List<DeadringerSyringe> DeadringerSyringes { get; private set; } = new()
         {
             new DeadringerSyringe()
+        };
+
+        public List<PhantomLantern> PhantomLanterns { get; private set; } = new()
+        {
+            new PhantomLantern()
         };
     }
 }

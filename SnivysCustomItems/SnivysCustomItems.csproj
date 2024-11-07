@@ -81,6 +81,7 @@
         <Compile Include="Items\Grenades\NerveAgentGrenade.cs" />
         <Compile Include="Items\Grenades\SmokeGrenade.cs" />
         <Compile Include="Items\Injections\DeadringerSyringe.cs" />
+        <Compile Include="Items\Other\PhantomLantern.cs" />
         <Compile Include="Plugin.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
