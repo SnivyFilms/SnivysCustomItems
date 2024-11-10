@@ -6,6 +6,7 @@ using Exiled.CustomItems.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles;
+using PluginAPI.Events;
 using UnityEngine;
 using PlayerAPI = Exiled.API.Features.Player;
 using PlayerEvent = Exiled.Events.Handlers.Player;
@@ -21,6 +22,7 @@ namespace SnivysCustomItems.Items.Other
         public override float Weight { get; set; } = 0.5f;
         public float EffectDuration { get; set; } = 150f;
         private bool _effectActive = false;
+        private List<PlayerAPI> _playersWithEffect = new List<PlayerAPI>();
         private CoroutineHandle phantomLanternCoroutine;
         public override SpawnProperties SpawnProperties { get; set; } = new()
         {
@@ -69,8 +71,8 @@ namespace SnivysCustomItems.Items.Other
             PlayerEvent.InteractingElevator += OnInteractingElevator;
             PlayerEvent.InteractingLocker += OnInteractingLocker;
             PlayerEvent.Interacted += OnInteracted;
-            PlayerEvent.ChangingItem += OnChangingItem;
             PlayerEvent.Died += OnDied;
+            PlayerEvent.Left += OnDisconnect;
             base.SubscribeEvents();
         }
         protected override void UnsubscribeEvents()
@@ -80,18 +82,19 @@ namespace SnivysCustomItems.Items.Other
             PlayerEvent.InteractingElevator -= OnInteractingElevator;
             PlayerEvent.InteractingLocker -= OnInteractingLocker;
             PlayerEvent.Interacted -= OnInteracted;
-            PlayerEvent.ChangingItem -= OnChangingItem;
             PlayerEvent.Died -= OnDied;
+            PlayerEvent.Left -= OnDisconnect;
             base.UnsubscribeEvents();
         }
 
         private void UsingFlashlight(TogglingFlashlightEventArgs ev)
         {
-            if (_effectActive)
+            if (_effectActive && _playersWithEffect.Contains(ev.Player))
                 return;
             if (!Check(ev.Player.CurrentItem))
                 return;
             _effectActive = true;
+            _playersWithEffect.Add(ev.Player);
             ev.Player.EnableEffect(EffectType.Ghostly);
             ev.Player.EnableEffect(EffectType.Invisible);
             ev.Player.EnableEffect(EffectType.FogControl, 5);
@@ -106,6 +109,8 @@ namespace SnivysCustomItems.Items.Other
                 return;
             if (!_effectActive)
                 return;
+            if (!_playersWithEffect.Contains(ev.Player))
+                return;
             Timing.CallDelayed(.5f, () =>
             {
                 ev.Player.EnableEffect(EffectType.Invisible);
@@ -114,33 +119,38 @@ namespace SnivysCustomItems.Items.Other
 
         private void OnInteractingElevator(InteractingElevatorEventArgs ev)
         {
+            if (!_playersWithEffect.Contains(ev.Player))
+                return;
             Timing.KillCoroutines(phantomLanternCoroutine);
             EndOfEffect(ev.Player);
         }
 
         private void OnInteractingLocker(InteractingLockerEventArgs ev)
         {
+            if (!_playersWithEffect.Contains(ev.Player))
+                return;
             Timing.KillCoroutines(phantomLanternCoroutine);
             EndOfEffect(ev.Player);
         }
         private void OnInteracted(InteractedEventArgs ev)
         {
+            if (!_playersWithEffect.Contains(ev.Player))
+                return;
             Timing.KillCoroutines(phantomLanternCoroutine);
             EndOfEffect(ev.Player);
-        }
-
-        private void OnChangingItem(ChangingItemEventArgs ev)
-        {
-            if (!Check(ev.Player.CurrentItem)) 
-                return;
-            if (!_effectActive)
-                return;
-            ev.IsAllowed = false;
         }
         private void OnDied(DiedEventArgs ev)
         {
             Timing.KillCoroutines(phantomLanternCoroutine);
             _effectActive = false;
+            EndOfEffect(ev.Player);
+        }
+
+        private void OnDisconnect(LeftEventArgs ev)
+        {
+            Timing.KillCoroutines(phantomLanternCoroutine);
+            _effectActive = false;
+            EndOfEffect(ev.Player);
         }
         public IEnumerator<float> PhantomLanternCoroutine(PlayerAPI player)
         {
@@ -163,6 +173,7 @@ namespace SnivysCustomItems.Items.Other
             player.DisableEffect(EffectType.AmnesiaItems);
             player.CurrentItem.Destroy();
             _effectActive = false;
+            _playersWithEffect.Remove(player);
         }
     }
 }
