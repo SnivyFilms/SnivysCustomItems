@@ -87,6 +87,8 @@ namespace SnivysCustomItems.Items.Other
 
         private void UsingFlashlight(TogglingFlashlightEventArgs ev)
         {
+            if (_effectActive)
+                return;
             if (!Check(ev.Player.CurrentItem))
                 return;
             _effectActive = true;
@@ -94,6 +96,7 @@ namespace SnivysCustomItems.Items.Other
             ev.Player.EnableEffect(EffectType.Invisible);
             ev.Player.EnableEffect(EffectType.FogControl, 5);
             ev.Player.EnableEffect(EffectType.Slowness, 50);
+            ev.Player.EnableEffect(EffectType.AmnesiaItems);
             phantomLanternCoroutine = Timing.RunCoroutine(PhantomLanternCoroutine(ev.Player));
         }
 
@@ -145,8 +148,8 @@ namespace SnivysCustomItems.Items.Other
             while (durationRemaining > 0)
             {
                 player.Stamina = 0;
-                durationRemaining -= 1f;
-                yield return Timing.WaitForSeconds(1f);
+                durationRemaining -= .5f;
+                yield return Timing.WaitForSeconds(.5f);
             }
             EndOfEffect(player);
         }
@@ -157,6 +160,7 @@ namespace SnivysCustomItems.Items.Other
             player.DisableEffect(EffectType.Invisible);
             player.DisableEffect(EffectType.Slowness);
             player.DisableEffect(EffectType.FogControl);
+            player.DisableEffect(EffectType.AmnesiaItems);
             player.CurrentItem.Destroy();
             _effectActive = false;
         }
