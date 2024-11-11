@@ -141,16 +141,24 @@ namespace SnivysCustomItems.Items.Other
         }
         private void OnDied(DiedEventArgs ev)
         {
-            Timing.KillCoroutines(phantomLanternCoroutine);
-            _effectActive = false;
-            EndOfEffect(ev.Player);
+            // Check if the player is not null and has an active lantern effect
+            if (ev.Player != null && _playersWithEffect.Contains(ev.Player))
+            {
+                Timing.KillCoroutines(phantomLanternCoroutine);
+                _effectActive = false;
+                EndOfEffect(ev.Player);
+            }
         }
 
         private void OnDisconnect(LeftEventArgs ev)
         {
-            Timing.KillCoroutines(phantomLanternCoroutine);
-            _effectActive = false;
-            EndOfEffect(ev.Player);
+            // Check if the player is not null and has an active lantern effect
+            if (ev.Player != null && _playersWithEffect.Contains(ev.Player))
+            {
+                Timing.KillCoroutines(phantomLanternCoroutine);
+                _effectActive = false;
+                _playersWithEffect.Remove(ev.Player);
+            }
         }
         public IEnumerator<float> PhantomLanternCoroutine(PlayerAPI player)
         {
@@ -166,12 +174,14 @@ namespace SnivysCustomItems.Items.Other
 
         public void EndOfEffect(PlayerAPI player)
         {
+            if (player == null) return;
+            
             player.DisableEffect(EffectType.Ghostly);
             player.DisableEffect(EffectType.Invisible);
             player.DisableEffect(EffectType.Slowness);
             player.DisableEffect(EffectType.FogControl);
             player.DisableEffect(EffectType.AmnesiaItems);
-            player.CurrentItem.Destroy();
+            player.CurrentItem?.Destroy();
             _effectActive = false;
             _playersWithEffect.Remove(player);
         }
