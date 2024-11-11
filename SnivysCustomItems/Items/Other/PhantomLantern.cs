@@ -6,10 +6,10 @@ using Exiled.CustomItems.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles;
-using PluginAPI.Events;
 using UnityEngine;
 using PlayerAPI = Exiled.API.Features.Player;
 using PlayerEvent = Exiled.Events.Handlers.Player;
+using Server = Exiled.Events.Handlers.Server;
 
 namespace SnivysCustomItems.Items.Other
 {
@@ -73,6 +73,7 @@ namespace SnivysCustomItems.Items.Other
             PlayerEvent.Interacted += OnInteracted;
             PlayerEvent.Died += OnDied;
             PlayerEvent.Left += OnDisconnect;
+            Server.WaitingForPlayers += OnWaitingForPlayers;
             base.SubscribeEvents();
         }
         protected override void UnsubscribeEvents()
@@ -84,6 +85,7 @@ namespace SnivysCustomItems.Items.Other
             PlayerEvent.Interacted -= OnInteracted;
             PlayerEvent.Died -= OnDied;
             PlayerEvent.Left -= OnDisconnect;
+            Server.WaitingForPlayers -= OnWaitingForPlayers;
             base.UnsubscribeEvents();
         }
 
@@ -159,6 +161,13 @@ namespace SnivysCustomItems.Items.Other
                 _effectActive = false;
                 _playersWithEffect.Remove(ev.Player);
             }
+        }
+
+        public void OnWaitingForPlayers()
+        {
+            Timing.KillCoroutines(phantomLanternCoroutine);
+            _effectActive = false;
+            _playersWithEffect.Clear();
         }
         public IEnumerator<float> PhantomLanternCoroutine(PlayerAPI player)
         {
