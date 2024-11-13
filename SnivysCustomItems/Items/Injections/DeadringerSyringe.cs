@@ -11,6 +11,7 @@ using Exiled.Events.EventArgs.Player;
 using MEC;
 using UnityEngine;
 using Player = Exiled.Events.Handlers.Player;
+using Random = System.Random;
 
 namespace SnivysCustomItems.Items.Injections
 {
@@ -23,6 +24,8 @@ namespace SnivysCustomItems.Items.Injections
         public override float Weight { get; set; } = 1.15f;
         public String OnUseMessage { get; set; } = "You become incredibly light headed";
         public String RagdollDeathReason { get; set; } = "Totally A Intentional Fatal Injection";
+        public bool UsableAfterNuke { get; set; } = false;
+        public bool TeleportToLightAfterDecom { get; set; } = false;
         public override SpawnProperties SpawnProperties { get; set; } = new SpawnProperties()
         {
             Limit = 1,
@@ -36,6 +39,14 @@ namespace SnivysCustomItems.Items.Injections
                     Type = LockerType.Misc
                 }
             }
+        };
+        public List<RoomType> ExcludedRooms { get; set; } = new List<RoomType>()
+        {
+            RoomType.EzShelter,
+            RoomType.Lcz173,
+            RoomType.Hcz049,
+            RoomType.HczNuke,
+            RoomType.EzCollapsedTunnel
         };
         protected override void SubscribeEvents()
         {
@@ -52,6 +63,8 @@ namespace SnivysCustomItems.Items.Injections
         {
             if (!Check(ev.Player.CurrentItem))
                 return;
+            if (!UsableAfterNuke && Warhead.IsDetonated)
+                return;
             ev.Player.Broadcast(new Exiled.API.Features.Broadcast(OnUseMessage, 3));
             ev.Player.EnableEffect(EffectType.Blinded, 15f, true);
             Timing.CallDelayed(3, () =>
@@ -64,24 +77,20 @@ namespace SnivysCustomItems.Items.Injections
                 ev.Player.EnableEffect(EffectType.AmnesiaItems, 30f, true);
                 ev.Player.EnableEffect(EffectType.AmnesiaVision, 30f, true);
                 Ragdoll ragdoll = Ragdoll.CreateAndSpawn(ev.Player.Role, ev.Player.Nickname, RagdollDeathReason, ev.Player.Position, ev.Player.ReferenceHub.PlayerCameraReference.rotation);
-                ZoneType playerZone = ev.Player.Zone;
-                switch (playerZone)
+                Random random = new Random();
+                List<Room> rooms = Room.List.Where(room => !ExcludedRooms.Contains(room.Type)).ToList();
+                if (rooms.Count > 0)
                 {
-                    case ZoneType.Surface:
-                        ev.Player.Teleport(Room.List.Where(r => r.Type is RoomType.Surface).GetRandomValue());
-                        break;
-                    case ZoneType.LightContainment:
-                        ev.Player.Teleport(Room.List.Where(r => r.Zone is ZoneType.LightContainment).GetRandomValue());
-                        break;
-                    case ZoneType.HeavyContainment:
-                        ev.Player.Teleport(Room.List.Where(r => r.Zone is ZoneType.HeavyContainment).GetRandomValue());
-                        break;
-                    case ZoneType.Entrance:
-                        ev.Player.Teleport(Room.List.Where(r => r.Zone is ZoneType.Entrance).GetRandomValue());
-                        break;
-                    default:
-                        ev.Player.Teleport(Room.List.GetRandomValue());
-                        break;
+                     if (!TeleportToLightAfterDecom && Map.DecontaminationState == DecontaminationState.Finish)
+                     { 
+                         ev.Player.Teleport(Room.List.Where(r => r.Zone is not ZoneType.LightContainment && !ExcludedRooms.Contains(r.Type)).GetRandomValue());
+                     }
+                     else
+                     {
+                         Room randomRoom = rooms[random.Next(rooms.Count)];
+                         Vector3 teleportPosition = randomRoom.Position + Vector3.up;
+                         ev.Player.Position = teleportPosition;
+                     }
                 }
             });
         }

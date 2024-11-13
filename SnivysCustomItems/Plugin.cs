@@ -10,7 +10,7 @@ namespace SnivysCustomItems
         public override string Name { get; } = "Snivys Custom Items";
         public override string Author { get; } = "Vicious Vikki";
         public override string Prefix { get; } = "VVCustomItems";
-        public override Version Version { get; } = new Version(1, 2, 4);
+        public override Version Version { get; } = new Version(1, 2, 5);
         public override Version RequiredExiledVersion { get; } = new Version(8, 14, 0);
 
         public override void OnEnabled()
