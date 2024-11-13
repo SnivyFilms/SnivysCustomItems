@@ -8,6 +8,7 @@ using Exiled.API.Features.Attributes;
 using Exiled.API.Features.Spawn;
 using Exiled.CustomItems.API.Features;
 using Exiled.Events.EventArgs.Player;
+using JetBrains.Annotations;
 using MEC;
 using UnityEngine;
 using Player = Exiled.Events.Handlers.Player;
@@ -26,6 +27,7 @@ namespace SnivysCustomItems.Items.Injections
         public String RagdollDeathReason { get; set; } = "Totally A Intentional Fatal Injection";
         public bool UsableAfterNuke { get; set; } = false;
         public bool TeleportToLightAfterDecom { get; set; } = false;
+        [CanBeNull]
         public override SpawnProperties SpawnProperties { get; set; } = new SpawnProperties()
         {
             Limit = 1,

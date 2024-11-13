@@ -4,6 +4,7 @@ using Exiled.API.Features.Attributes;
 using Exiled.API.Features.Spawn;
 using Exiled.CustomItems.API.Features;
 using Exiled.Events.EventArgs.Player;
+using JetBrains.Annotations;
 using MEC;
 using PlayerRoles;
 using UnityEngine;
@@ -24,6 +25,7 @@ namespace SnivysCustomItems.Items.Other
         private bool _effectActive = false;
         private List<PlayerAPI> _playersWithEffect = new List<PlayerAPI>();
         private CoroutineHandle phantomLanternCoroutine;
+        [CanBeNull]
         public override SpawnProperties SpawnProperties { get; set; } = new()
         {
             Limit = 1,

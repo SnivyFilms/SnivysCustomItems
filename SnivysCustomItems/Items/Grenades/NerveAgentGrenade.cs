@@ -6,6 +6,7 @@ using Exiled.API.Features.Pickups;
 using Exiled.API.Features.Spawn;
 using Exiled.CustomItems.API.Features;
 using Exiled.Events.EventArgs.Map;
+using JetBrains.Annotations;
 using MEC;
 using UnityEngine;
 using PlayerAPI = Exiled.API.Features.Player;
@@ -28,6 +29,7 @@ namespace SnivysCustomItems.Items.Grenades
         private Vector3 grenadePosition;
         private Pickup pickup;
         private CoroutineHandle nerveAgentHandle;
+        [CanBeNull]
         public override SpawnProperties SpawnProperties { get; set; } = new()
         {
             Limit = 1,
