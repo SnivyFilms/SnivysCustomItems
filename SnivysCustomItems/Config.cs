@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using Exiled.API.Interfaces;
-using SnivysCustomItems.Items;
+using SnivysCustomItems.Items.Armor;
 using SnivysCustomItems.Items.Firearms;
 using SnivysCustomItems.Items.Grenades;
 using SnivysCustomItems.Items.Injections;
@@ -40,6 +40,11 @@ namespace SnivysCustomItems
         public List<PhantomLantern> PhantomLanterns { get; private set; } = new()
         {
             new PhantomLantern()
+        };
+
+        public List<ExplosiveResistantArmor> ExplosiveResistantArmor { get; private set; } = new()
+        {
+            new ExplosiveResistantArmor()
         };
     }
 }

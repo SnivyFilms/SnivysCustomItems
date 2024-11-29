@@ -5,6 +5,7 @@ using Exiled.API.Features.Items;
 using Exiled.API.Features.Spawn;
 using Exiled.CustomItems.API.Features;
 using Exiled.Events.EventArgs.Player;
+using JetBrains.Annotations;
 using Player = Exiled.Events.Handlers.Player;
 
 namespace SnivysCustomItems.Items.Firearms
@@ -16,6 +17,7 @@ namespace SnivysCustomItems.Items.Firearms
         public override string Name { get; set; } = "Explosive Round Revolver";
         public override string Description { get; set; } = "This revolver fires explosive rounds.";
         public override float Weight { get; set; } = 1f;
+        [CanBeNull]
         public override SpawnProperties SpawnProperties { get; set; } = new()
         {
             Limit = 1,

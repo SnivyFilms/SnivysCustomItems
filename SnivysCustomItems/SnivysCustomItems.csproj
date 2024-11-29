@@ -86,6 +86,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Config.cs" />
+        <Compile Include="Items\Armor\ExplosiveResistantArmor.cs" />
         <Compile Include="Items\Firearms\ExplosiveRoundRevolver.cs" />
         <Compile Include="Items\Grenades\NerveAgentGrenade.cs" />
         <Compile Include="Items\Grenades\SmokeGrenade.cs" />
