@@ -16,7 +16,7 @@ namespace SnivysCustomItems.Items.Armor
     public class ExplosiveResistantArmor: CustomArmor
     {
         public override uint Id { get; set; } = 25;
-        public override string Name { get; set; } = "Explosive Resistant Armor";
+        public override string Name { get; set; } = "<color=#FF0000>Explosive Resistant Armor</color>";
 
         public override string Description { get; set; } =
             "When wearing this armor, you become resistant to explosives.";

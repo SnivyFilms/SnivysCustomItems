@@ -14,7 +14,7 @@ namespace SnivysCustomItems.Items.Grenades
     public class SmokeGrenade : CustomGrenade
     {
         public override uint Id { get; set; } = 20;
-        public override string Name { get; set; } = "Obscurus Veil-5";
+        public override string Name { get; set; } = "<color=#6600CC>Obscurus Veil-5</color>";
 
         public override string Description { get; set; } =
             "This flash is a smoke grenade, when detonated, a smoke cloud will be deployed";

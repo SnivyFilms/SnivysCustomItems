@@ -14,7 +14,7 @@ namespace SnivysCustomItems.Items.Firearms
     public class ExplosiveRoundRevolver : CustomWeapon
     {
         public override uint Id { get; set; } = 21;
-        public override string Name { get; set; } = "Explosive Round Revolver";
+        public override string Name { get; set; } = "<color=#FF0000>Explosive Round Revolver</color>";
         public override string Description { get; set; } = "This revolver fires explosive rounds.";
         public override float Weight { get; set; } = 1f;
         [CanBeNull]
@@ -25,8 +25,28 @@ namespace SnivysCustomItems.Items.Firearms
             {
                 new()
                 {
-                    Chance = 1,
+                    Chance = 10,
                     Location = SpawnLocationType.InsideHid,
+                },
+                new()
+                {
+                    Chance = 20,
+                    Location = SpawnLocationType.InsideNukeArmory,
+                },
+                new()
+                {
+                    Chance = 10,
+                    Location = SpawnLocationType.InsideHczArmory,
+                },
+                new()
+                {
+                    Chance = 20,
+                    Location = SpawnLocationType.Inside049Armory,
+                },
+                new()
+                {
+                    Chance = 10,
+                    Location = SpawnLocationType.Inside096,
                 },
             }
         };

@@ -18,7 +18,7 @@ namespace SnivysCustomItems.Items.Other
     public class PhantomLantern : CustomItem
     {
         public override uint Id { get; set; } = 24;
-        public override string Name { get; set; } = "Phantom Lantern";
+        public override string Name { get; set; } = "'<color=#0096FF>Phantom Lantern</color>";
         public override string Description { get; set; } = "'Limbo is no place for a soul like yours'";
         public override float Weight { get; set; } = 0.5f;
         public float EffectDuration { get; set; } = 150f;

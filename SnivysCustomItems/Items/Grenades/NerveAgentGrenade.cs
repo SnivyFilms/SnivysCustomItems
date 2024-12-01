@@ -17,7 +17,7 @@ namespace SnivysCustomItems.Items.Grenades
     public class NerveAgentGrenade : CustomGrenade
     {
         public override uint Id { get; set; } = 22;
-        public override string Name { get; set; } = "Nerve Agent Grenade";
+        public override string Name { get; set; } = "<color=#FF0000>Nerve Agent Grenade</color>";
         public override string Description { get; set; } = "Deploys Nerve Agent";
         public override float Weight { get; set; } = 1f;
         public override bool ExplodeOnCollision { get; set; } = false;
@@ -32,13 +32,33 @@ namespace SnivysCustomItems.Items.Grenades
         [CanBeNull]
         public override SpawnProperties SpawnProperties { get; set; } = new()
         {
-            Limit = 1,
+            Limit = 2,
             DynamicSpawnPoints = new List<DynamicSpawnPoint>
             {
                 new()
                 {
-                    Chance = 1,
-                    Location = SpawnLocationType.InsideHid,
+                    Chance = 25,
+                    Location = SpawnLocationType.InsideLczArmory,
+                },
+                new()
+                {
+                    Chance = 25,
+                    Location = SpawnLocationType.InsideHczArmory,
+                },
+                new()
+                {
+                    Chance = 25,
+                    Location = SpawnLocationType.InsideNukeArmory,
+                },
+                new()
+                {
+                    Chance = 25,
+                    Location = SpawnLocationType.Inside049Armory,
+                },
+                new()
+                {
+                    Chance = 25,
+                    Location = SpawnLocationType.InsideSurfaceNuke,
                 },
             }
         };
